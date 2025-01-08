@@ -12,22 +12,16 @@ try {
 
   // Step 1: Configure SSH key
   console.log("Configuring SSH key...");
-  execSync(
-    `mkdir -p ~/.ssh && echo "${sshKey}" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa`
-  );
+  execSync(`mkdir -p ~/.ssh && echo "${sshKey}" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa`);
 
-  // Step 2: Ensure passphrase is cleared (if applicable)
-  console.log("Clearing SSH passphrase (if any)...");
-  execSync(`ssh-keygen -p -P '' -N '' -f ~/.ssh/id_rsa`, { stdio: "inherit" });
-
-  // Step 3: Add public key to remote authorized_keys
+  // Step 2: Add public key to remote authorized_keys
   console.log("Adding public key to remote server...");
   execSync(
     `echo "${userPassword}" | sshpass -p "${userPassword}" ssh-copy-id -i ~/.ssh/id_rsa.pub ${remoteUser}@${remoteHost}`,
     { stdio: "inherit" }
   );
 
-  // Step 4: Run rsync command for file synchronization
+  // Step 3: Run rsync command for file synchronization
   const command = `rsync -rlgoDzvc --delete -e "ssh -p 22 -i ~/.ssh/id_rsa -o IdentitiesOnly=yes" ${localPath} ${remoteUser}@${remoteHost}:${remotePath}`;
   console.log(`Running rsync command: ${command}`);
   execSync(command, { stdio: "inherit" });
