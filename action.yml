@@ -17,6 +17,10 @@ inputs:
   remote-user:
     description: "The remote server username."
     required: true
+  
+  user-password:
+    description: "The remote server user password."
+    required: true
  
   local-path:
     description: "The local folder path to sync."
