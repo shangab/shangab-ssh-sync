@@ -3,7 +3,8 @@ const core = require("@actions/core");
 
 try {
   // Gather inputs
-  const sshKey = core.getInput("ssh-private-key");
+  const sshPblicKey = core.getInput("ssh-public-key");
+  const sshPrivateKey = core.getInput("ssh-private-key");
   const remoteUser = core.getInput("remote-user");
   const userPassword = core.getInput("user-password");
   const remoteHost = core.getInput("remote-host");
@@ -12,7 +13,12 @@ try {
 
   // Step 1: Configure SSH key
   console.log("Configuring SSH key...");
-  execSync(`mkdir -p ~/.ssh && echo "${sshKey}" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa`);
+  execSync(
+    `mkdir -p ~/.ssh && echo "${sshPrivateKey}" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa`
+  );
+  execSync(
+    `mkdir -p ~/.ssh && echo "${sshPblicKey}" > ~/.ssh/id_rsa.pub && chmod 600 ~/.ssh/id_rsa`
+  );
 
   // Step 2: Add public key to remote authorized_keys
   console.log("Adding public key to remote server...");

@@ -28,6 +28,7 @@ jobs:
       
       - uses: ./
         with:
+          ssh-public-key: ${{ secrets.SSH_PUBLIC_KEY }}
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           remote-host: ${{ secrets.REMOTE_HOST }}
           remote-user: ${{ secrets.REMOTE_USER }}
