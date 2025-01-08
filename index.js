@@ -1,12 +1,12 @@
-import { execSync } from "child_process";
-import { getInput, setOutput, setFailed } from "@actions/core";
+const { execSync } = require("child_process");
+const core = require("@actions/core");
 
 try {
-  const sshKey = getInput("ssh-private-key");
-  const remoteUser = getInput("remote-user");
-  const remoteHost = getInput("remote-host");
-  const localPath = getInput("local-path");
-  const remotePath = getInput("remote-path");
+  const sshKey = core.getInput("ssh-private-key");
+  const remoteUser = core.getInput("remote-user");
+  const remoteHost = core.getInput("remote-host");
+  const localPath = core.getInput("local-path");
+  const remotePath = core.getInput("remote-path");
 
   // Configure SSH
   execSync(`echo "${sshKey}" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa`);
@@ -17,7 +17,7 @@ try {
   execSync(command, { stdio: "inherit" });
 
   // Success message
-  setOutput("success-message", "Sync completed successfully!");
+  core.setOutput("success-message", "Sync completed successfully!");
 } catch (error) {
-  setFailed(error.message);
+  core.setFailed(error.message);
 }
