@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      
+      - name: Install NCC global
+        run: npm install -g @vercel/ncc
 
       - name: Install Dependencies
         run: npm install
