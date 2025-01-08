@@ -1,0 +1,19 @@
+#  Test current githib action project.
+
+name: Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          remote-host: ${{ secrets.REMOTE_HOST }}
+          remote-user: ${{ secrets.REMOTE_USER }}
+          local-path: './Test'
+          remote-path: '/home/kwikrowc/public_html/shangab-ssh-sync'
